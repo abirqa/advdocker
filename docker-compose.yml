@@ -1,0 +1,66 @@
+version: '3'
+
+services: 
+  
+  #WORDPRESS
+  wordpress:
+    image: wordpress:latest
+    depends_on:
+      - db
+    container_name: "${PROJECT_NAME}wp"
+    env_file:
+      - .env
+    restart: "always"
+    networks:
+    - adv_test_wp
+    volumes: ['./:/var/www/html/']
+    ports:
+      - '7010:80'
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: advwp
+      WORDPRESS_DB_PASSWORD: advwp
+  
+  #DATABASE
+  db:
+    image : mysql:5.7
+    container_name: "${PROJECT_NAME}db"
+    env_file:
+      - .env
+    restart: always
+    networks: 
+      - "adv_test_wp"
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: advwp
+      MYSQL_USER: advwp
+      MYSQL_PASSWORD: advwp
+
+  #PHPMYADMIN
+  phpmyadmin:
+    image : "phpmyadmin/phpmyadmin"
+    container_name: "${PROJECT_NAME}phpmyadmin"
+    env_file:
+      - .env
+    depends_on: 
+      - db
+    restart: always
+    networks:
+      - "adv_test_wp" 
+    ports:
+      - '6010:80'
+    environment: 
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: password
+
+networks:
+  adv_test_wp:
+
+volumes:
+  db_data:
+
+
+
+

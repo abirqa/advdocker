@@ -1,0 +1,63 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.0/containers/alpine
+{
+	"name": "adv_wp",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "wordpress",
+	"workspaceFolder": "/var/www/html",
+	"settings": {
+		"terminal.integrated.profiles.linux": {
+			"zsh": {
+				"path": "/usr/bin/zsh",
+				"args": [
+					"-l"
+				]
+			}
+		},
+		"terminal.integrated.defaultProfile.linux": "zsh",
+		"terminal.integrated.defaultProfile.osx": "zsh",
+		"terminal.integrated.defaultProfile.windows": "zsh",
+		"php.suggest.basic": false
+	},
+
+	// Adding Compaitable VSCode Extensions //
+
+	"extensions": [
+		"wordpresstoolbox.wordpress-toolbox", //WordPress Snippets
+		"johnbillion.vscode-wordpress-hooks", //WordPress Hooks Intellisense for VS Code
+		"eamodio.gitlens", //GitLens
+		"Gruntfuggly.todo-tree", // Todo Notes
+		"tobiastao.vscode-md", // Markdown
+		"mrmlnc.vscode-scss", // SCSS IntelliSense
+		"bmewburn.vscode-intelephense-client", //PHP Intelephense
+	],
+
+	// Forwarded Ports for the Project //
+
+	"forwardPorts": [
+		3306,
+		7010,
+		6010
+	],
+
+	// portsAttributes //
+
+	"portsAttributes": {
+		"7010": {
+			"label": "Main Application",
+			"onAutoForward": "openBrowser"
+		},
+		"6010": {
+			"label": "PhpMyAdmin",
+			"onAutoForward": "openBrowser"
+		},
+		"3306": {
+			"label": "MySql_DB"
+		}
+	},
+
+	// Remote user setup //
+
+	"remoteUser": "vscode"
+	
+}
